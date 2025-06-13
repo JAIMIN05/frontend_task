@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
 import Editor from './Editor';
-import { initialNotes } from '../store/notesData';
+import { saveNotes, loadNotes } from '../utils/storage';
 
 const Home = () => {
   // State management
-  const [notes, setNotes] = useState(() => {
-    const savedNotes = localStorage.getItem('notes');
-    return savedNotes ? JSON.parse(savedNotes) : initialNotes;
-  });
+  const [notes, setNotes] = useState(() => loadNotes());
   const [selectedNoteId, setSelectedNoteId] = useState(null);
   const [currentContent, setCurrentContent] = useState('');
 
@@ -24,7 +21,7 @@ const Home = () => {
 
   // Save notes to localStorage
   useEffect(() => {
-    localStorage.setItem('notes', JSON.stringify(notes));
+    saveNotes(notes);
   }, [notes]);
 
   // Note management functions
