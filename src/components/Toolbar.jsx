@@ -19,10 +19,11 @@ const Toolbar = ({ onEncryptNote, onDecryptNote }) => {
   const fontSizes = ['1', '2', '3', '4', '5', '6', '7'];
 
   return (
-    <div className="flex items-center space-x-2 p-2">
+    <div className="flex items-center space-x-1 md:space-x-2 p-2 overflow-x-auto">
+      {/* Make buttons smaller on mobile */}
       <button
         onClick={() => handleFormat('bold')}
-        className="p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900"
+        className="p-1.5 md:p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900 text-sm md:text-base"
         title="Bold"
       >
         <FaBold />
@@ -30,7 +31,7 @@ const Toolbar = ({ onEncryptNote, onDecryptNote }) => {
       
       <button
         onClick={() => handleFormat('italic')}
-        className="p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900"
+        className="p-1.5 md:p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900 text-sm md:text-base"
         title="Italic"
       >
         <FaItalic />
@@ -38,17 +39,17 @@ const Toolbar = ({ onEncryptNote, onDecryptNote }) => {
       
       <button
         onClick={() => handleFormat('underline')}
-        className="p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900"
+        className="p-1.5 md:p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900 text-sm md:text-base"
         title="Underline"
       >
         <FaUnderline />
       </button>
       
-      <div className="h-6 w-px bg-gray-300 mx-2" /> {/* Divider */}
+      <div className="h-6 w-px bg-gray-300 mx-1 md:mx-2 shrink-0" /> {/* Divider */}
       
       <button
         onClick={() => handleFormat('justifyLeft')}
-        className="p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900"
+        className="p-1.5 md:p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900 text-sm md:text-base"
         title="Align Left"
       >
         <FaAlignLeft />
@@ -56,7 +57,7 @@ const Toolbar = ({ onEncryptNote, onDecryptNote }) => {
       
       <button
         onClick={() => handleFormat('justifyCenter')}
-        className="p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900"
+        className="p-1.5 md:p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900 text-sm md:text-base"
         title="Align Center"
       >
         <FaAlignCenter />
@@ -64,19 +65,19 @@ const Toolbar = ({ onEncryptNote, onDecryptNote }) => {
       
       <button
         onClick={() => handleFormat('justifyRight')}
-        className="p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900"
+        className="p-1.5 md:p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900 text-sm md:text-base"
         title="Align Right"
       >
         <FaAlignRight />
       </button>
       
-      <div className="h-6 w-px bg-gray-300 mx-2" /> {/* Divider */}
+      <div className="h-6 w-px bg-gray-300 mx-1 md:mx-2 shrink-0" /> {/* Divider */}
       
-      <div className="flex items-center space-x-1">
-        <FaFont className="text-gray-600" />
+      <div className="flex items-center space-x-1 shrink-0">
+        <FaFont className="text-gray-600 text-sm md:text-base" />
         <select
           onChange={(e) => handleFormat('fontSize', e.target.value)}
-          className="p-1 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="p-1 border rounded-lg text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {fontSizes.map(size => (
             <option key={size} value={size}>
@@ -86,14 +87,14 @@ const Toolbar = ({ onEncryptNote, onDecryptNote }) => {
         </select>
       </div>
       
-      <div className="h-6 w-px bg-gray-300 mx-2" />
+      <div className="h-6 w-px bg-gray-300 mx-1 md:mx-2" />
       
       <button
         onClick={() => {
           console.log('Encrypt button clicked'); // Add this for debugging
           onEncryptNote();
         }}
-        className="p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900"
+        className="p-1.5 md:p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900 text-sm md:text-base"
         title="Encrypt Note"
       >
         <FaLock />
@@ -104,7 +105,7 @@ const Toolbar = ({ onEncryptNote, onDecryptNote }) => {
           console.log('Decrypt button clicked'); // Add this for debugging
           onDecryptNote();
         }}
-        className="p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900"
+        className="p-1.5 md:p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900 text-sm md:text-base"
         title="Decrypt Note"
       >
         <FaUnlock />

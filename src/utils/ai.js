@@ -40,13 +40,28 @@ export const grammarCheck = async (text) => {
         model: "meta-llama/llama-4-scout-17b-16e-instruct",
         messages: [{
           role: "user",
-          content: `Please check the following text for grammar and provide suggestions: ${text}`
-        }]
+          content: `Analyze the following text for grammar and provide feedback in this format:
+          1. List maximum 3 most important grammar issues
+          2. For each issue, give one short correction example
+          3. Ignore minor stylistic issues
+          4. Focus only on significant errors that affect clarity
+          
+          Text to analyze: "${text}"`
+        }],
+        max_tokens: 200,
+        temperature: 0.3
       })
     });
 
     const data = await response.json();
-    return data.choices[0].message.content;
+    let feedback = data.choices[0].message.content;
+
+    // Format the response for better display
+    feedback = feedback
+      .replace(/(\d+\.|•)/g, '\n$1') // Add line breaks before numbers/bullets
+      .trim();
+
+    return feedback;
   } catch (error) {
     console.error('Failed to check grammar:', error);
     return null;
