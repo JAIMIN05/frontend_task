@@ -5,7 +5,7 @@ import { initialNotes } from './store/notesData'
 
 function App() {
   const [notes, setNotes] = useState(initialNotes);
-  const [activeNoteId, setActiveNoteId] = useState(null);
+  const [activeNoteId] = useState(null);
   const [currentContent, setCurrentContent] = useState('');
 
   const handlePinNote = (noteId) => {
