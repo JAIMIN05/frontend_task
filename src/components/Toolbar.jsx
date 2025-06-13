@@ -6,10 +6,12 @@ import {
   FaAlignLeft, 
   FaAlignCenter, 
   FaAlignRight,
-  FaFont
+  FaFont,
+  FaLock,
+  FaUnlock
 } from 'react-icons/fa';
 
-const Toolbar = () => {
+const Toolbar = ({ onEncryptNote, onDecryptNote }) => {
   const handleFormat = (command, value = null) => {
     document.execCommand(command, false, value);
   };
@@ -83,6 +85,30 @@ const Toolbar = () => {
           ))}
         </select>
       </div>
+      
+      <div className="h-6 w-px bg-gray-300 mx-2" />
+      
+      <button
+        onClick={() => {
+          console.log('Encrypt button clicked'); // Add this for debugging
+          onEncryptNote();
+        }}
+        className="p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900"
+        title="Encrypt Note"
+      >
+        <FaLock />
+      </button>
+      
+      <button
+        onClick={() => {
+          console.log('Decrypt button clicked'); // Add this for debugging
+          onDecryptNote();
+        }}
+        className="p-2 hover:bg-gray-100 rounded-lg text-gray-600 hover:text-gray-900"
+        title="Decrypt Note"
+      >
+        <FaUnlock />
+      </button>
     </div>
   );
 };

@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
 import Editor from './Editor';
+import PasswordModal from './PasswordModal';
 import { saveNotes, loadNotes } from '../utils/storage';
+import { encryptNote, decryptNote } from '../utils/encryption';
 
 const Home = () => {
   // State management
   const [notes, setNotes] = useState(() => loadNotes());
   const [selectedNoteId, setSelectedNoteId] = useState(null);
   const [currentContent, setCurrentContent] = useState('');
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [passwordModalMode, setPasswordModalMode] = useState('encrypt');
 
   // Load selected note content
   useEffect(() => {
@@ -87,31 +91,89 @@ const Home = () => {
     }
   };
 
+  const handleEncryptNote = () => {
+    if (selectedNoteId) {
+      setPasswordModalMode('encrypt');
+      setIsPasswordModalOpen(true);
+    }
+  };
+
+  const handleDecryptNote = () => {
+    if (selectedNoteId) {
+      setPasswordModalMode('decrypt');
+      setIsPasswordModalOpen(true);
+    }
+  };
+
+  const handlePasswordSubmit = (password) => {
+    if (!selectedNoteId) return;
+
+    const note = notes.find(n => n.id === selectedNoteId);
+    if (!note) return;
+
+    if (passwordModalMode === 'encrypt') {
+      const encrypted = encryptNote(note.content, password);
+      if (encrypted) {
+        const updatedNote = {
+          ...note,
+          content: encrypted,
+          isEncrypted: true,
+          preview: '🔒 Encrypted Note'
+        };
+        setNotes(notes.map(n => n.id === selectedNoteId ? updatedNote : n));
+        setCurrentContent('🔒 This note is encrypted. Click decrypt to view.');
+      }
+    } else {
+      const decrypted = decryptNote(note.content, password);
+      if (decrypted) {
+        const updatedNote = {
+          ...note,
+          content: decrypted,
+          isEncrypted: false,
+          preview: decrypted.replace(/<[^>]+>/g, '').slice(0, 50) + '...'
+        };
+        setNotes(notes.map(n => n.id === selectedNoteId ? updatedNote : n));
+        setCurrentContent(decrypted);
+      }
+    }
+    setIsPasswordModalOpen(false);
+  };
+
   return (
-    <Layout 
-      notes={notes}
-      onPinNote={handlePinNote}
-      onDeleteNote={handleDeleteNote}
-      activeNoteId={selectedNoteId}
-      onSelectNote={handleSelectNote}
-      onCreateNote={handleCreateNote}
-      onTitleChange={handleTitleChange}
-    >
-      {selectedNoteId ? (
-        <Editor 
-          content={currentContent}
-          setContent={handleContentChange}
-        />
-      ) : (
-        <div className="flex items-center justify-center h-full text-gray-500">
-          <p className="text-center">
-            {notes.length === 0 
-              ? "Create your first note by clicking the + button"
-              : "Select a note or create a new one to start editing"}
-          </p>
-        </div>
-      )}
-    </Layout>
+    <>
+      <Layout 
+        notes={notes}
+        onPinNote={handlePinNote}
+        onDeleteNote={handleDeleteNote}
+        activeNoteId={selectedNoteId}
+        onSelectNote={handleSelectNote}
+        onCreateNote={handleCreateNote}
+        onTitleChange={handleTitleChange}
+        onEncryptNote={handleEncryptNote}
+        onDecryptNote={handleDecryptNote}
+      >
+        {selectedNoteId ? (
+          <Editor 
+            content={currentContent}
+            setContent={handleContentChange}
+          />
+        ) : (
+          <div className="flex items-center justify-center h-full text-gray-500">
+            <p className="text-center">
+              {notes.length === 0 
+                ? "Create your first note by clicking the + button"
+                : "Select a note or create a new one to start editing"}
+            </p>
+          </div>
+        )}
+      </Layout>
+      <PasswordModal
+        isOpen={isPasswordModalOpen}
+        onClose={() => setIsPasswordModalOpen(false)}
+        onSubmit={handlePasswordSubmit}
+        mode={passwordModalMode}
+      />
+    </>
   );
 };
 

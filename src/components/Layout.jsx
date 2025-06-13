@@ -10,7 +10,9 @@ const Layout = ({
   onDeleteNote, 
   activeNoteId,
   onSelectNote,
-  onCreateNote 
+  onCreateNote,
+  onEncryptNote,  // Add these props
+  onDecryptNote
 }) => {
   return (
     <div className="flex h-screen bg-gray-100">
@@ -40,7 +42,10 @@ const Layout = ({
       {/* Main Content Area - 75% width */}
       <div className="flex-1 flex flex-col">
         <div className="bg-white shadow-sm border-b">
-          <Toolbar />
+          <Toolbar 
+            onEncryptNote={onEncryptNote}    // Add these handlers
+            onDecryptNote={onDecryptNote}
+          />
         </div>
         <div className="flex-1 p-4">
           {children}
