@@ -15,8 +15,13 @@ const Editor = ({ content, setContent }) => {
     setContent(newContent);
   };
 
+  // Add this function to maintain editor focus after toolbar clicks
+  const handleFocus = () => {
+    editorRef.current?.focus();
+  };
+
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col" onClick={handleFocus}>
       <div
         ref={editorRef}
         contentEditable

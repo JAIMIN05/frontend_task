@@ -1,5 +1,6 @@
 import React from 'react';
 import NoteList from './NoteList';
+import Toolbar from './Toolbar';
 
 const Layout = ({ children, notes, onPinNote, onDeleteNote, activeNoteId }) => {
   return (
@@ -20,10 +21,8 @@ const Layout = ({ children, notes, onPinNote, onDeleteNote, activeNoteId }) => {
       {/* Main Content Area - 75% width */}
       <div className="flex-1 flex flex-col">
         {/* Toolbar */}
-        <div className="h-16 bg-white shadow-sm border-b">
-          <div className="h-full px-4 flex items-center">
-            {/* Toolbar content will go here */}
-          </div>
+        <div className="bg-white shadow-sm border-b">
+          <Toolbar />
         </div>
 
         {/* Editor Area */}
