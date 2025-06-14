@@ -1,4 +1,3 @@
-const GROQ_API_KEY = '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';
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
 export const summarizeNote = async (text) => {
@@ -7,7 +6,7 @@ export const summarizeNote = async (text) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${GROQ_API_KEY}`
+        'Authorization': `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`
       },
       body: JSON.stringify({
         model: "meta-llama/llama-4-scout-17b-16e-instruct",
@@ -34,7 +33,7 @@ export const grammarCheck = async (text) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${GROQ_API_KEY}`
+        'Authorization': `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`
       },
       body: JSON.stringify({
         model: "meta-llama/llama-4-scout-17b-16e-instruct",
